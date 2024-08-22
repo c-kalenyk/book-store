@@ -2,7 +2,7 @@ package mate.academy.bookstore.repository.impl;
 
 import java.util.List;
 import lombok.RequiredArgsConstructor;
-import mate.academy.bookstore.exceptions.DataProcessingException;
+import mate.academy.bookstore.exception.DataProcessingException;
 import mate.academy.bookstore.model.Book;
 import mate.academy.bookstore.repository.BookRepository;
 import org.hibernate.Session;
