@@ -34,4 +34,9 @@ public class BookServiceImpl implements BookService {
     public List<BookDto> findAll() {
         return bookMapper.toBookDtoList(bookRepository.findAll());
     }
+
+    @Override
+    public void deleteById(Long id) {
+        bookRepository.deleteById(id);
+    }
 }
