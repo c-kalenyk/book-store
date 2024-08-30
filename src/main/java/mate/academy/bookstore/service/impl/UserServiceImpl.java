@@ -29,10 +29,10 @@ public class UserServiceImpl implements UserService {
             throw new RegistrationException("Can't register new user. "
                     + "User with this email already exists");
         }
-        User user = userMapper.toUserModel(requestDto);
+        User user = userMapper.toModel(requestDto);
         user.setPassword(passwordEncoder.encode(requestDto.getPassword()));
-        Role role = roleRepository.findByRoleName(Role.RoleName.USER);
+        Role role = roleRepository.findByRoleName(Role.RoleName.ROLE_USER);
         user.setRoles(Set.of(role));
-        return userMapper.toUserDto(userRepository.save(user));
+        return userMapper.toDto(userRepository.save(user));
     }
 }

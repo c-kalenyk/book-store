@@ -8,7 +8,7 @@ import org.mapstruct.Mapper;
 
 @Mapper(config = MapperConfig.class)
 public interface UserMapper {
-    UserResponseDto toUserDto(User user);
+    UserResponseDto toDto(User user);
 
-    User toUserModel(UserRegistrationRequestDto requestDto);
+    User toModel(UserRegistrationRequestDto requestDto);
 }
