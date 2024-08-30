@@ -1,0 +1,12 @@
+databaseChangeLog:
+  - changeSet:
+      id: you-are-admin-bob
+      author: oleksandr
+      changes:
+        - update:
+            tableName: users_roles
+            columns:
+              - column:
+                  name: role_id
+                  value: 1
+            where: user_id = 2
