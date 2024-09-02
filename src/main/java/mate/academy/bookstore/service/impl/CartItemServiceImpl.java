@@ -1,8 +1,6 @@
 package mate.academy.bookstore.service.impl;
 
-import java.util.Set;
 import lombok.RequiredArgsConstructor;
-import mate.academy.bookstore.dto.cartitem.CartItemDto;
 import mate.academy.bookstore.dto.cartitem.CreateCartItemRequestDto;
 import mate.academy.bookstore.dto.cartitem.UpdateCartItemRequestDto;
 import mate.academy.bookstore.dto.shoppingcart.ShoppingCartDto;
@@ -16,7 +14,6 @@ import mate.academy.bookstore.repository.book.BookRepository;
 import mate.academy.bookstore.repository.cartitem.CartItemRepository;
 import mate.academy.bookstore.repository.shoppingcart.ShoppingCartRepository;
 import mate.academy.bookstore.service.CartItemService;
-import org.hibernate.Hibernate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -29,8 +26,9 @@ public class CartItemServiceImpl implements CartItemService {
     private final BookRepository bookRepository;
     private final ShoppingCartMapper shoppingCartMapper;
 
+    @Transactional
     @Override
-    public CartItemDto save(Long shoppingCartId, CreateCartItemRequestDto requestDto) {
+    public ShoppingCartDto save(Long shoppingCartId, CreateCartItemRequestDto requestDto) {
         Book book = bookRepository.findById(requestDto.getBookId())
                 .orElseThrow(() -> new EntityNotFoundException(
                         "Can't find shopping cart by id: " + shoppingCartId));
@@ -40,16 +38,21 @@ public class CartItemServiceImpl implements CartItemService {
         CartItem cartItem = cartItemMapper.toModel(requestDto);
         cartItem.setBook(book);
         cartItem.setShoppingCart(shoppingCart);
-        return cartItemMapper.toDto(cartItemRepository.save(cartItem));
+        cartItemRepository.save(cartItem);
+        shoppingCart.getCartItems().add(cartItem);
+        return shoppingCartMapper.toDto(shoppingCartRepository.save(shoppingCart));
     }
 
+    @Transactional
     @Override
-    public CartItemDto updateQuantity(Long id, UpdateCartItemRequestDto requestDto) {
+    public ShoppingCartDto updateQuantity(Long id, UpdateCartItemRequestDto requestDto) {
         CartItem cartItem = cartItemRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException(
                         "Can't find existing cart item by id: " + id));
         cartItem.setQuantity(requestDto.getQuantity());
-        return cartItemMapper.toDto(cartItemRepository.save(cartItem));
+        cartItemRepository.save(cartItem);
+        ShoppingCart shoppingCart = cartItem.getShoppingCart();
+        return shoppingCartMapper.toDto(shoppingCart);
     }
 
     @Transactional
@@ -58,9 +61,7 @@ public class CartItemServiceImpl implements CartItemService {
         ShoppingCart shoppingCart = shoppingCartRepository.findById(shoppingCartId)
                 .orElseThrow(() -> new EntityNotFoundException(
                         "Can't find shopping cart by id: " + shoppingCartId));
-        Hibernate.initialize(shoppingCart.getCartItems());
-        Set<CartItemDto> dtoSet = cartItemMapper.toDtoSet(shoppingCart.getCartItems());
-        return shoppingCartMapper.toDto(shoppingCart, dtoSet);
+        return shoppingCartMapper.toDto(shoppingCart);
     }
 
     @Override

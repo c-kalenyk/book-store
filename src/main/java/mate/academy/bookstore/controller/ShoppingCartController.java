@@ -4,7 +4,6 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import mate.academy.bookstore.dto.cartitem.CartItemDto;
 import mate.academy.bookstore.dto.cartitem.CreateCartItemRequestDto;
 import mate.academy.bookstore.dto.cartitem.UpdateCartItemRequestDto;
 import mate.academy.bookstore.dto.shoppingcart.ShoppingCartDto;
@@ -41,7 +40,7 @@ public class ShoppingCartController {
     @Operation(summary = "Add a new cart item", description = "Add a new cart item "
             + "to shopping cart")
     @PostMapping
-    public CartItemDto saveCartItem(Authentication authentication,
+    public ShoppingCartDto saveCartItem(Authentication authentication,
                                     @RequestBody @Valid CreateCartItemRequestDto requestDto) {
         UserResponseDto user = userService.findByEmail(authentication.getName());
         return cartItemService.save(user.getId(), requestDto);
@@ -50,7 +49,7 @@ public class ShoppingCartController {
     @Operation(summary = "Update cart item quantity", description = "Update "
             + "cart item quantity by id")
     @PutMapping("/items/{cartItemId}")
-    public CartItemDto updateCartItemQuantity(@PathVariable Long cartItemId,
+    public ShoppingCartDto updateCartItemQuantity(@PathVariable Long cartItemId,
                               @RequestBody @Valid UpdateCartItemRequestDto requestDto) {
         return cartItemService.updateQuantity(cartItemId, requestDto);
     }
