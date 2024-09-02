@@ -4,7 +4,7 @@ import mate.academy.bookstore.dto.cartitem.CreateCartItemRequestDto;
 import mate.academy.bookstore.dto.cartitem.UpdateCartItemRequestDto;
 import mate.academy.bookstore.dto.shoppingcart.ShoppingCartDto;
 
-public interface CartItemService {
+public interface ShoppingCartService {
     ShoppingCartDto save(Long shoppingCartId, CreateCartItemRequestDto requestDto);
 
     ShoppingCartDto updateQuantity(Long id, UpdateCartItemRequestDto requestDto);

@@ -8,7 +8,7 @@ import mate.academy.bookstore.dto.cartitem.CreateCartItemRequestDto;
 import mate.academy.bookstore.dto.cartitem.UpdateCartItemRequestDto;
 import mate.academy.bookstore.dto.shoppingcart.ShoppingCartDto;
 import mate.academy.bookstore.dto.user.UserResponseDto;
-import mate.academy.bookstore.service.CartItemService;
+import mate.academy.bookstore.service.ShoppingCartService;
 import mate.academy.bookstore.service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
@@ -27,14 +27,14 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 @RequestMapping("/cart")
 public class ShoppingCartController {
-    private final CartItemService cartItemService;
+    private final ShoppingCartService shoppingCartService;
     private final UserService userService;
 
     @Operation(summary = "Get all books", description = "Get a list of all available books")
     @GetMapping
     public ShoppingCartDto getAllCartItems(Authentication authentication) {
         UserResponseDto user = userService.findByEmail(authentication.getName());
-        return cartItemService.getCartItems(user.getId());
+        return shoppingCartService.getCartItems(user.getId());
     }
 
     @Operation(summary = "Add a new cart item", description = "Add a new cart item "
@@ -43,7 +43,7 @@ public class ShoppingCartController {
     public ShoppingCartDto saveCartItem(Authentication authentication,
                                     @RequestBody @Valid CreateCartItemRequestDto requestDto) {
         UserResponseDto user = userService.findByEmail(authentication.getName());
-        return cartItemService.save(user.getId(), requestDto);
+        return shoppingCartService.save(user.getId(), requestDto);
     }
 
     @Operation(summary = "Update cart item quantity", description = "Update "
@@ -51,13 +51,13 @@ public class ShoppingCartController {
     @PutMapping("/items/{cartItemId}")
     public ShoppingCartDto updateCartItemQuantity(@PathVariable Long cartItemId,
                               @RequestBody @Valid UpdateCartItemRequestDto requestDto) {
-        return cartItemService.updateQuantity(cartItemId, requestDto);
+        return shoppingCartService.updateQuantity(cartItemId, requestDto);
     }
 
     @Operation(summary = "Delete cart item", description = "Delete cart item by id")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/items/{cartItemId}")
     public void deleteCartItem(@PathVariable Long cartItemId) {
-        cartItemService.deleteById(cartItemId);
+        shoppingCartService.deleteById(cartItemId);
     }
 }

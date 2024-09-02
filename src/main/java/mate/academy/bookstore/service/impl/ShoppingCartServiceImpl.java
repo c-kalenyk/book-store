@@ -13,13 +13,13 @@ import mate.academy.bookstore.model.ShoppingCart;
 import mate.academy.bookstore.repository.book.BookRepository;
 import mate.academy.bookstore.repository.cartitem.CartItemRepository;
 import mate.academy.bookstore.repository.shoppingcart.ShoppingCartRepository;
-import mate.academy.bookstore.service.CartItemService;
+import mate.academy.bookstore.service.ShoppingCartService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
-public class CartItemServiceImpl implements CartItemService {
+public class ShoppingCartServiceImpl implements ShoppingCartService {
     private final CartItemRepository cartItemRepository;
     private final CartItemMapper cartItemMapper;
     private final ShoppingCartRepository shoppingCartRepository;
