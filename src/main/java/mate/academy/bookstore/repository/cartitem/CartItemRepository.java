@@ -12,4 +12,11 @@ public interface CartItemRepository extends JpaRepository<CartItem, Long> {
             + "LEFT JOIN FETCH ci.book b "
             + "WHERE sc.id = :shoppingCartId")
     Set<CartItem> getCartItemsByShoppingCartId(@Param("shoppingCartId") Long shoppingCartId);
+
+    @Query("SELECT ci FROM CartItem ci "
+            + "LEFT JOIN FETCH ci.shoppingCart sc "
+            + "LEFT JOIN FETCH ci.book b "
+            + "WHERE ci.id = :id AND sc.id = :shoppingCartId")
+    CartItem getByIdAndShoppingCartId(@Param("id") Long id,
+                                      @Param("shoppingCartId") Long shoppingCartId);
 }
