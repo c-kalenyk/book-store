@@ -9,10 +9,11 @@ import mate.academy.bookstore.dto.order.CreateOrderRequestDto;
 import mate.academy.bookstore.dto.order.OrderDto;
 import mate.academy.bookstore.dto.order.UpdateOrderRequestDto;
 import mate.academy.bookstore.dto.orderitem.OrderItemDto;
-import mate.academy.bookstore.dto.user.UserResponseDto;
-import mate.academy.bookstore.service.OrderItemService;
+import mate.academy.bookstore.model.User;
 import mate.academy.bookstore.service.OrderService;
-import mate.academy.bookstore.service.UserService;
+import org.springdoc.core.annotations.ParameterObject;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,22 +30,21 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/orders")
 public class OrderController {
     private final OrderService orderService;
-    private final OrderItemService orderItemService;
-    private final UserService userService;
 
     @Operation(summary = "Get all orders from user",
             description = "Get history of orders made by user")
     @GetMapping
-    public Set<OrderDto> getOrdersHistory(Authentication authentication) {
-        UserResponseDto user = userService.findByEmail(authentication.getName());
-        return orderService.getUserOrders(user.getId());
+    public Set<OrderDto> getOrdersHistory(Authentication authentication,
+                                          @ParameterObject @PageableDefault Pageable pageable) {
+        User user = (User) authentication.getPrincipal();
+        return orderService. getUserOrders(user.getId(), pageable);
     }
 
     @Operation(summary = "Create new order", description = "Create new order from shopping cart")
     @PostMapping
     public OrderDto createOrder(Authentication authentication,
                                 @RequestBody @Valid CreateOrderRequestDto requestDto) {
-        UserResponseDto user = userService.findByEmail(authentication.getName());
+        User user = (User) authentication.getPrincipal();
         return orderService.create(user.getId(), requestDto);
     }
 
@@ -58,14 +58,18 @@ public class OrderController {
 
     @Operation(summary = "Get order item", description = "Get order item by id")
     @GetMapping("{orderId}/items/{itemId}")
-    OrderItemDto getOrderItem(@PathVariable Long orderId,
-                              @PathVariable Long itemId) {
-        return orderItemService.getByOrderIdAndItemId(orderId, itemId);
+    public OrderItemDto getOrderItem(@PathVariable Long orderId,
+                                     @PathVariable Long itemId,
+                                     Authentication authentication) {
+        User user = (User) authentication.getPrincipal();
+        return orderService.getSpecificItem(user.getId(), orderId, itemId);
     }
 
     @Operation(summary = "Get all items for a specific order")
     @GetMapping("/{orderId}/items")
-    Set<OrderItemDto> getAllOrderItems(@PathVariable Long orderId) {
-        return orderItemService.getItemsFromOrder(orderId);
+    Set<OrderItemDto> getAllOrderItems(@PathVariable Long orderId,
+                                       Authentication authentication) {
+        User user = (User) authentication.getPrincipal();
+        return orderService.getItemsFromOrder(user.getId(), orderId);
     }
 }

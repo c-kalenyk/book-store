@@ -1,5 +1,6 @@
 package mate.academy.bookstore.model;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -30,19 +31,19 @@ public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
-    private Status status;
+    private Status status = Status.PENDING;
     @Column(nullable = false)
     private BigDecimal total;
     @Column(nullable = false)
-    private LocalDateTime orderDate;
+    private LocalDateTime orderDate = LocalDateTime.now();
     @Column(nullable = false)
     private String shippingAddress;
-    @OneToMany(mappedBy = "order", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<OrderItem> orderItems;
     @Column(nullable = false)
     private boolean isDeleted;
