@@ -7,5 +7,6 @@ import mate.academy.bookstore.dto.cartitem.CartItemDto;
 @Data
 public class ShoppingCartDto {
     private Long id;
+    private Long userId;
     private Set<CartItemDto> cartItems;
 }

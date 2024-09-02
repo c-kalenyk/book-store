@@ -4,7 +4,6 @@ import java.util.Set;
 import lombok.RequiredArgsConstructor;
 import mate.academy.bookstore.dto.user.UserRegistrationRequestDto;
 import mate.academy.bookstore.dto.user.UserResponseDto;
-import mate.academy.bookstore.exception.EntityNotFoundException;
 import mate.academy.bookstore.exception.RegistrationException;
 import mate.academy.bookstore.mapper.UserMapper;
 import mate.academy.bookstore.model.Role;
@@ -35,12 +34,5 @@ public class UserServiceImpl implements UserService {
         Role role = roleRepository.findByRoleName(Role.RoleName.ROLE_USER);
         user.setRoles(Set.of(role));
         return userMapper.toDto(userRepository.save(user));
-    }
-
-    @Override
-    public UserResponseDto findByEmail(String email) {
-        User user = userRepository.findByEmail(email).orElseThrow(() ->
-                new EntityNotFoundException("Can't find user by email"));
-        return userMapper.toDto(user);
     }
 }
