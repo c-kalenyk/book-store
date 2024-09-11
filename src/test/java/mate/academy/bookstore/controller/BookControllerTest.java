@@ -193,7 +193,7 @@ public class BookControllerTest {
 
     @Test
     @WithMockUser(username = "admin", roles = {"ADMIN"})
-    @DisplayName("Update book by id")
+    @DisplayName("Delete book by id")
     @Sql(scripts = {
             "classpath:database/books/add-three-books.sql",
     }, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)

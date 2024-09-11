@@ -25,3 +25,5 @@ databaseChangeLog:
       file: db/changelog/changes/12-create-order-items-table.yaml
   - include:
       file: db/changelog/changes/13-add-precision-to-price-in-books-table.yaml
+  - include:
+      file: db/changelog/changes/14-add-precision-to-total-in-orders-table.yaml

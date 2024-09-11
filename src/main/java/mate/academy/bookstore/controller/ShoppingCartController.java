@@ -28,7 +28,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class ShoppingCartController {
     private final ShoppingCartService shoppingCartService;
 
-    @Operation(summary = "Get all books", description = "Get a list of all available books")
+    @Operation(summary = "Get all cart items", description = "Get a list of all available books")
     @GetMapping
     public ShoppingCartDto getAllCartItems(Authentication authentication) {
         User user = (User) authentication.getPrincipal();
@@ -37,6 +37,7 @@ public class ShoppingCartController {
 
     @Operation(summary = "Add a new cart item", description = "Add a new cart item "
             + "to shopping cart")
+    @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
     public ShoppingCartDto saveCartItem(Authentication authentication,
                                     @RequestBody @Valid CreateCartItemRequestDto requestDto) {
