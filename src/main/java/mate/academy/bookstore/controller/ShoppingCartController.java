@@ -21,16 +21,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-@Tag(name = "Shopping cart management", description = "Endpoints for managing cart items")
+@Tag(name = "Shopping cart management", description = "Endpoints for managing shopping cart")
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/cart")
 public class ShoppingCartController {
     private final ShoppingCartService shoppingCartService;
 
-    @Operation(summary = "Get all cart items", description = "Get a list of all available books")
+    @Operation(summary = "Get shopping cart",
+            description = "Get users shopping cart with all cart items")
     @GetMapping
-    public ShoppingCartDto getAllCartItems(Authentication authentication) {
+    public ShoppingCartDto getShoppingCart(Authentication authentication) {
         User user = (User) authentication.getPrincipal();
         return shoppingCartService.getShoppingCart(user.getId());
     }
