@@ -1,9 +1,0 @@
-databaseChangeLog:
-  - changeSet:
-      id: add-precision-to-total-in-orders-table
-      author: oleksandr
-      changes:
-        - modifyDataType:
-            tableName: orders
-            columnName: total
-            newDataType: decimal(10, 2)
