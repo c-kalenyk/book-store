@@ -18,7 +18,4 @@ public interface CartItemMapper {
     CartItem toModel(CreateCartItemRequestDto requestDto);
 
     Set<CartItemDto> toDtoSet(Set<CartItem> cartItems);
-
-    @Mapping(target = "book", source = "bookId", qualifiedByName = "bookFromId")
-    Set<CartItem> toModelSet(Set<CartItemDto> cartItemDtos);
 }

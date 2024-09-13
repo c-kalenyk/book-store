@@ -1,0 +1,61 @@
+databaseChangeLog:
+  - changeSet:
+      id: recreate-orders-table-with-total-precision
+      author: oleksandr
+      changes:
+        - sql:
+            sql: |
+              ALTER TABLE order_items DROP FOREIGN KEY fk_order_items_order;
+              ALTER TABLE orders DROP FOREIGN KEY fk_orders_user;
+        - dropTable:
+            tableName: orders
+        - createTable:
+            tableName: orders
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: user_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+              - column:
+                  name: status
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: total
+                  type: decimal(10, 2)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: order_date
+                  type: timestamp
+                  constraints:
+                    nullable: false
+              - column:
+                  name: shipping_address
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: is_deleted
+                  type: bit
+                  constraints:
+                    nullable: false
+        - addForeignKeyConstraint:
+            baseColumnNames: user_id
+            baseTableName: orders
+            constraintName: fk_orders_user
+            referencedTableName: users
+            referencedColumnNames: id
+        - sql:
+            sql: |
+              ALTER TABLE order_items
+              ADD CONSTRAINT fk_order_items_order FOREIGN KEY (order_id) REFERENCES orders(id);
