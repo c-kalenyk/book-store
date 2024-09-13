@@ -1,8 +1,15 @@
 databaseChangeLog:
   - changeSet:
-      id: create-books-table
+      id: recreate-books-table-with-price-precision
       author: oleksandr
       changes:
+        - sql:
+            sql: |
+              ALTER TABLE books_categories DROP FOREIGN KEY fk_book;
+              ALTER TABLE cart_items DROP FOREIGN KEY fk_cart_items_book;
+              ALTER TABLE order_items DROP FOREIGN KEY fk_order_items_book;
+        - dropTable:
+            tableName: books
         - createTable:
             tableName: books
             columns:
@@ -31,7 +38,7 @@ databaseChangeLog:
                     unique: true
               - column:
                   name: price
-                  type: decimal
+                  type: decimal(10, 2)
                   constraints:
                     nullable: false
               - column:
@@ -45,3 +52,13 @@ databaseChangeLog:
                   type: bit
                   constraints:
                     nullable: false
+        - sql:
+            sql: |
+              ALTER TABLE books_categories
+              ADD CONSTRAINT fk_book FOREIGN KEY (book_id) REFERENCES books(id);
+              
+              ALTER TABLE cart_items
+              ADD CONSTRAINT fk_cart_items_book FOREIGN KEY (book_id) REFERENCES books(id);
+              
+              ALTER TABLE order_items
+              ADD CONSTRAINT fk_order_items_book FOREIGN KEY (book_id) REFERENCES books(id);

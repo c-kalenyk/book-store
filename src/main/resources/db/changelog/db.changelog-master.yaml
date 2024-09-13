@@ -23,3 +23,7 @@ databaseChangeLog:
       file: db/changelog/changes/11-create-orders-table.yaml
   - include:
       file: db/changelog/changes/12-create-order-items-table.yaml
+  - include:
+      file: db/changelog/changes/13-recreate-books-table-with-price-precision.yaml
+  - include:
+      file: db/changelog/changes/14-recreate-orders-table-with-total-precision.yaml
