@@ -17,8 +17,8 @@ This allows users to buy books without the need to leave their homes or browse t
 ---
 
 - Java 21
-- Spring Boot, Spring Security, Spring Data JPA
-- MySQL, Liquibase
+- Spring Boot 3.3.2, Spring Security, Spring Data JPA
+- MySQL 9, Liquibase
 - JWT
 - Maven, Docker
 - Lombok, Mapstruct, Swagger
