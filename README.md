@@ -30,11 +30,12 @@ This allows users to buy books without the need to leave their homes or browse t
 
 ---
 
-1. Install and run Docker.
-2. Configure access parameters in the `.env` file (refer to the required fields in the `.env.template` file).
-3. Open a terminal and navigate to the root directory of the project on your machine.
-4. Run the application using Docker Compose: `docker-compose up`
-5. Voilà! :)
+1. Clone repo.
+2. Install and run Docker.
+3. Configure access parameters in the `.env` file (refer to the required fields in the `.env.template` file).
+4. Open a terminal and navigate to the root directory of the project on your machine.
+5. Run the application using Docker Compose: `docker-compose up`
+6. Voilà! :)
 
 Feel free to test the available functionality using endpoints with tools like Postman or via Swagger UI, which you can find below ⬇️
 
