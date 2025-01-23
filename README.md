@@ -1,4 +1,4 @@
-# Online Bookstore
+# Online bookstore "ShelfCloud"
 
 ---
 
@@ -6,7 +6,7 @@
 
 ---
 
-The "Online bookstore" is a web application for purchasing books online.
+The "ShelfCloud" is a web application for purchasing books online.
 In this app, users can browse available books, search for desired books by multiple criteria, save them to a shopping cart, and place an order.
 This allows users to buy books without the need to leave their homes or browse through physical bookshelves, making the process comfortable and fast.
 
